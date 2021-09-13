@@ -1,0 +1,1 @@
+select count(*) from students where cohort_id  between 1 and 3;
