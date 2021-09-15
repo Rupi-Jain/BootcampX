@@ -8,15 +8,15 @@ const client = new Client({
 });
 client.connect();
 const args = process.argv.slice(2);
-
+const values = [`${args[0]}`];
 client.query(`SELECT  DISTINCT teachers.name as teacher, cohorts.name as cohort
               FROM teachers
               JOIN assistance_requests ON teacher_id = teachers.id
               JOIN students ON student_id = students.id
               JOIN cohorts ON cohort_id = cohorts.id
-              WHERE cohorts.name = '${args[0]}'
+              WHERE cohorts.name = $1
               ORDER BY teacher;
-            `)
+            `, [values[0]])
       .then(res => {
         res.rows.forEach(user => {
           console.log(`${user.cohort}: ${user.teacher}`);
